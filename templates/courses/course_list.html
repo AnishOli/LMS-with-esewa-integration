@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore Courses - EduSpace{% endblock %}
+
+{% block content %}
+<div class="mb-5 text-center">
+    <h2 class="display-6 fw-bold">Explore Our Courses</h2>
+    <p class="lead text-muted">Find the perfect course to level up your skills.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card border-0 premium-shadow rounded-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Categories</h5>
+                <ul class="list-group list-group-flush">
+                    <a href="{% url 'courses:course_list' %}" class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center">
+                        All Courses
+                    </a>
+                    {% for category in categories %}
+                    <a href="?category={{ category.slug }}" class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center">
+                        {{ category.name }}
+                        <span class="badge bg-light text-dark rounded-pill">{{ category.courses.count }}</span>
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card border-0 premium-shadow rounded-4 h-100 overflow-hidden">
+                    {% if course.cover_image %}
+                        <img src="{{ course.cover_image.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 180px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                            <i class="bi bi-image text-muted fs-1"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body p-4 pb-0">
+                        <span class="badge bg-primary-subtle text-primary mb-2 rounded-pill px-3">{{ course.category.name }}</span>
+                        <h5 class="card-title fw-bold">
+                            <a href="{% url 'courses:course_detail' course.slug %}" class="text-decoration-none text-dark stretched-link">{{ course.title }}</a>
+                        </h5>
+                        <p class="card-text text-muted small mt-2 instructor-name"><i class="bi bi-person-fill"></i> {{ course.instructor.get_full_name|default:course.instructor.email }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 px-4 pb-4 pt-3 d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-success fs-5">
+                            {% if course.price == 0 %}Free{% else %}रु {{ course.price }}{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted lead">No courses found matching your criteria.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

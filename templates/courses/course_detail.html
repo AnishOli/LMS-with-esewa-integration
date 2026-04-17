@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }} - EduSpace{% endblock %}
+
+{% block content %}
+<div class="row mt-4 mb-5">
+    <div class="col-lg-8 mb-4 mb-lg-0">
+        <h1 class="fw-bold mb-3">{{ course.title }}</h1>
+        <p class="lead text-muted">{{ course.overview|linebreaksbr }}</p>
+        
+        <div class="d-flex align-items-center mb-4 text-muted">
+            <span class="me-4"><i class="bi bi-person-circle me-2"></i>{{ course.instructor.get_full_name|default:course.instructor.email }}</span>
+            <span class="me-4"><i class="bi bi-folder-fill me-2"></i>{{ course.category.name }}</span>
+            <span><i class="bi bi-calendar-event me-2"></i>Last updated {{ course.created|date:"M j, Y" }}</span>
+        </div>
+
+        <div class="card border-0 premium-shadow rounded-4 mt-5">
+            <div class="card-body p-4 p-md-5">
+                <h4 class="fw-bold mb-4">Course Content</h4>
+                {% if course.modules.all %}
+                    <div class="accordion accordion-flush" id="courseModules">
+                        {% for module in course.modules.all %}
+                            <div class="accordion-item border border-bottom-0 {% if forloop.first %}rounded-top-3{% endif %} {% if forloop.last %}rounded-bottom-3 border-bottom{% endif %}">
+                                <h2 class="accordion-header" id="heading{{ module.id }}">
+                                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} bg-light fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ module.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ module.id }}">
+                                        Module {{ module.order }}: {{ module.title }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ module.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ module.id }}" data-bs-parent="#courseModules">
+                                    <div class="accordion-body p-0">
+                                        <ul class="list-group list-group-flush">
+                                            {% for lesson in module.lessons.all %}
+                                                <li class="list-group-item px-4 py-3 d-flex align-items-center">
+                                                    <i class="bi bi-play-circle-fill text-primary mt-1 me-3 fs-5"></i>
+                                                    <div>
+                                                        <h6 class="mb-0 fw-medium">{{ lesson.title }}</h6>
+                                                    </div>
+                                                </li>
+                                            {% empty %}
+                                                <li class="list-group-item px-4 py-3 text-muted small">No lessons yet.</li>
+                                            {% endfor %}
+                                            {% if module.quiz %}
+                                                <li class="list-group-item px-4 py-3 bg-light border-top">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="bi bi-question-circle-fill text-warning me-2 fs-5"></i>
+                                                            <strong class="text-dark">Module Quiz: {{ module.quiz.title }}</strong>
+                                                        </div>
+                                                        {% if is_enrolled %}
+                                                            <a href="{% url 'quizzes:take_quiz' module.quiz.id %}" class="btn btn-sm btn-primary rounded-pill px-3">Take Quiz</a>
+                                                        {% else %}
+                                                            <span class="badge bg-secondary rounded-pill px-3 py-2"><i class="bi bi-lock-fill me-1"></i> Locked</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-muted mb-0">The instructor is still working on the content for this course.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card border-0 premium-shadow rounded-4 sticky-top" style="top: 2rem;">
+            {% if course.cover_image %}
+                <img src="{{ course.cover_image.url }}" class="card-img-top rounded-top-4" alt="{{ course.title }}">
+            {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center rounded-top-4" style="height: 220px;">
+                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+            {% endif %}
+            <div class="card-body p-4">
+                <h2 class="fw-bold mb-4">
+                    {% if course.price == 0 %}Free{% else %}रु {{ course.price }}{% endif %}
+                </h2>
+                <div class="d-grid mb-3">
+                    <a href="{% url 'enrollments:enroll' course.id %}" class="btn btn-primary btn-lg rounded-3 py-3 fw-bold shadow-sm">Enroll Now</a>
+                </div>
+                <p class="text-center text-muted small mb-0"><i class="bi bi-shield-check me-1"></i> Secure payment powered by eSewa</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

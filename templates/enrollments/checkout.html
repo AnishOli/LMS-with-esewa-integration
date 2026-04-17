@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - {{ course.title }} - EduSpace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6">
+        <h2 class="fw-bold mb-4">Checkout</h2>
+        <div class="card border-0 premium-shadow rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <div class="d-flex align-items-center mb-4">
+                    {% if course.cover_image %}
+                        <img src="{{ course.cover_image.url }}" alt="{{ course.title }}" class="rounded-3" style="width: 80px; height: 80px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <i class="bi bi-image text-muted fs-3"></i>
+                        </div>
+                    {% endif %}
+                    <div class="ms-3">
+                        <h5 class="fw-bold mb-1">{{ course.title }}</h5>
+                        <p class="text-muted small mb-0">{{ course.instructor.get_full_name|default:course.instructor.email }}</p>
+                    </div>
+                </div>
+                
+                <hr class="text-muted">
+                
+                <div class="d-flex justify-content-between my-3 fs-5">
+                    <span class="text-muted">Total Amount</span>
+                    <span class="fw-bold">रु {{ amount }}</span>
+                </div>
+                
+                <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+                    <input type="hidden" id="amount" name="amount" value="{{ amount }}" required>
+                    <input type="hidden" id="tax_amount" name="tax_amount" value ="0" required>
+                    <input type="hidden" id="total_amount" name="total_amount" value="{{ amount }}" required>
+                    <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="{{ transaction_uuid }}" required>
+                    <input type="hidden" id="product_code" name="product_code" value="{{ product_code }}" required>
+                    <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" required>
+                    <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
+                    <input type="hidden" id="success_url" name="success_url" value="{{ success_url }}" required>
+                    <input type="hidden" id="failure_url" name="failure_url" value="{{ failure_url }}" required>
+                    <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
+                    <input type="hidden" id="signature" name="signature" value="{{ signature }}" required>
+                    
+                    <button type="submit" class="btn btn-success btn-lg w-100 fw-bold mt-4 rounded-3 d-flex align-items-center justify-content-center" style="background-color: #60bb46; border-color: #60bb46;">
+                        Pay with eSewa
+                    </button>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{% url 'courses:course_detail' course.slug %}" class="text-muted text-decoration-none small">Cancel and return to course</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

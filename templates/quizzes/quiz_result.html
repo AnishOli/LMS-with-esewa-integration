@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Results - EduSpace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5 mb-5">
+    <div class="col-md-8 col-lg-6">
+        <div class="card border-0 premium-shadow rounded-4 text-center">
+            <div class="card-body p-4 p-md-5">
+                {% if attempt.passed %}
+                    <div class="mb-4">
+                        <i class="bi bi-patch-check-fill text-success" style="font-size: 5rem;"></i>
+                    </div>
+                    <h2 class="fw-bold mb-3">Congratulations!</h2>
+                    <p class="lead text-muted mb-4">You passed the quiz <strong>{{ attempt.quiz.title }}</strong>.</p>
+                {% else %}
+                    <div class="mb-4">
+                        <i class="bi bi-x-circle-fill text-danger" style="font-size: 5rem;"></i>
+                    </div>
+                    <h2 class="fw-bold mb-3">Keep trying!</h2>
+                    <p class="lead text-muted mb-4">You did not pass the quiz <strong>{{ attempt.quiz.title }}</strong> this time.</p>
+                {% endif %}
+                
+                <div class="bg-light rounded-4 p-4 mb-4">
+                    <h1 class="display-3 fw-bold {% if attempt.passed %}text-success{% else %}text-danger{% endif %}">{{ attempt.score|floatformat:0 }}%</h1>
+                    <p class="text-muted mb-0">Passing score required: {{ attempt.quiz.passing_score }}%</p>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-block">
+                    {% if not attempt.passed %}
+                        <a href="{% url 'quizzes:take_quiz' attempt.quiz.id %}" class="btn btn-outline-primary btn-lg px-4">Retake Quiz</a>
+                    {% endif %}
+                    <a href="{% url 'courses:course_detail' attempt.quiz.module.course.slug %}" class="btn btn-primary btn-lg px-4 shadow-sm">Return to Course</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
