@@ -15,26 +15,207 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #070f1c;
+            color: #cbd5e1;
         }
         .navbar-brand {
             font-weight: 700;
-            color: #4f46e5 !important;
+            color: #c9a84c !important;
         }
         .premium-shadow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,.3), 0 4px 6px -2px rgba(0,0,0,.2);
         }
         .btn-primary {
-            background-color: #4f46e5;
-            border-color: #4f46e5;
+            background: linear-gradient(135deg, #c9a84c, #e8c56d);
+            border: none;
+            color: #07111f;
+            font-weight: 700;
         }
         .btn-primary:hover {
-            background-color: #4338ca;
-            border-color: #4338ca;
+            background: linear-gradient(135deg, #b8962e, #d4b050);
+            color: #07111f;
         }
+        nav.navbar {
+            background: #0a1628 !important;
+            border-bottom: 1px solid rgba(201,168,76,.15);
+        }
+        .nav-link { color: #94a3b8 !important; }
+        .nav-link:hover { color: #c9a84c !important; }
+        .btn-outline-primary {
+            border-color: #c9a84c;
+            color: #c9a84c;
+        }
+        .btn-outline-primary:hover {
+            background: #c9a84c;
+            color: #07111f;
+            border-color: #c9a84c;
+        }
+        .btn-outline-danger {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .text-muted { color: #64748b !important; }
         main {
             min-height: calc(100vh - 140px);
         }
+
+        /* ══ FOOTER STYLES ══ */
+        .site-footer {
+            margin-top: 0;
+            background: #0a1628;
+            color: #a0aec0;
+            font-size: .88rem;
+            border-top: 1px solid rgba(201,168,76,.1);
+        }
+        .footer-wave {
+            line-height: 0;
+            background: #070f1c;
+        }
+        .footer-wave svg { display: block; width: 100%; height: 60px; }
+        .footer-body { padding: 56px 0 40px; }
+
+        /* Brand */
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #fff !important;
+            text-decoration: none;
+            letter-spacing: -.5px;
+            margin-bottom: .9rem;
+        }
+        .footer-brand i { color: #818cf8; }
+        .footer-tagline {
+            color: #94a3b8;
+            line-height: 1.65;
+            max-width: 340px;
+            margin-bottom: 1.1rem;
+        }
+
+        /* Social icons */
+        .footer-socials { display: flex; gap: .55rem; flex-wrap: wrap; }
+        .footer-socials a {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.1);
+            color: #a0aec0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .95rem;
+            text-decoration: none;
+            transition: background .2s, color .2s, border-color .2s;
+        }
+        .footer-socials a:hover { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+
+        /* eSewa badge */
+        .esewa-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(96,187,70,.12);
+            border: 1px solid rgba(96,187,70,.3);
+            color: #86efac;
+            font-size: .78rem;
+            padding: .3rem .85rem;
+            border-radius: 999px;
+        }
+
+        /* Headings */
+        .footer-heading {
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            font-size: .72rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: .5rem;
+        }
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 28px; height: 2px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            border-radius: 999px;
+        }
+
+        /* Links list */
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: .5rem; }
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .15rem;
+            transition: color .2s, padding-left .2s;
+        }
+        .footer-links a:hover { color: #a5b4fc; padding-left: 4px; }
+        .footer-links a i { font-size: .85rem; opacity: .7; }
+
+        /* Contact list variant */
+        .footer-contact li {
+            display: flex;
+            align-items: flex-start;
+            gap: .65rem;
+            margin-bottom: .65rem;
+            color: #94a3b8;
+        }
+        .footer-contact li i {
+            color: #818cf8;
+            font-size: 1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* Newsletter */
+        .newsletter-label {
+            font-size: .78rem;
+            color: #64748b;
+            margin-bottom: .5rem;
+        }
+        .newsletter-row { display: flex; gap: .4rem; }
+        .newsletter-input {
+            flex: 1;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 8px;
+            padding: .42rem .75rem;
+            color: #fff;
+            font-size: .82rem;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .newsletter-input::placeholder { color: #475569; }
+        .newsletter-input:focus { border-color: #4f46e5; }
+        .newsletter-btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: .82rem;
+            font-weight: 600;
+            padding: .42rem 1rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity .2s;
+        }
+        .newsletter-btn:hover { opacity: .88; }
+
+        /* Bottom bar */
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.07);
+            padding: 1rem 0;
+            font-size: .8rem;
+            color: #475569;
+        }
+        .footer-bottom strong { color: #818cf8; }
+        .footer-bottom-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+        .footer-bottom-links a { color: #475569; text-decoration: none; transition: color .2s; }
+        .footer-bottom-links a:hover { color: #a5b4fc; }
+        .made-with { display: flex; align-items: center; gap: .3rem; }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -85,13 +266,118 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-white text-center py-4 mt-5 border-top">
-        <div class="container text-muted">
-            <p class="mb-0">&copy; {% now "Y" %} EduSpace. All rights reserved.</p>
-        </div>
-    </footer>
+    <!-- ══════════ FOOTER ══════════ -->
+    <footer class="site-footer">
 
-    <!-- Bootstrap JS -->
+      <!-- Top wave divider -->
+      <div class="footer-wave">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#0f0e2a"/>
+        </svg>
+      </div>
+
+      <div class="footer-body">
+        <div class="container">
+          <div class="row gy-5">
+
+            <!-- Brand column -->
+            <div class="col-lg-4 col-md-6">
+              <a href="/" class="footer-brand">
+                <i class="bi bi-mortarboard-fill"></i> EduSpace
+              </a>
+              <p class="footer-tagline">
+                Nepal's premier online learning platform. Master in-demand skills from expert instructors and pay seamlessly with eSewa.
+              </p>
+              <!-- Social icons -->
+              <div class="footer-socials">
+                <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" aria-label="Twitter / X"><i class="bi bi-twitter-x"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                <a href="https://github.com/AnishOli/LMS-with-esewa-integration" target="_blank" aria-label="GitHub"><i class="bi bi-github"></i></a>
+              </div>
+              <!-- eSewa badge -->
+              <div class="esewa-badge mt-3">
+                <i class="bi bi-shield-fill-check me-2" style="color:#60bb46;"></i>
+                Secure payments via <strong>eSewa</strong>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 col-6">
+              <h6 class="footer-heading">Quick Links</h6>
+              <ul class="footer-links">
+                <li><a href="/"><i class="bi bi-house-door me-2"></i>Home</a></li>
+                <li><a href="{% url 'courses:course_list' %}"><i class="bi bi-grid me-2"></i>All Courses</a></li>
+                <li><a href="{% url 'register' %}"><i class="bi bi-person-plus me-2"></i>Sign Up</a></li>
+                <li><a href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right me-2"></i>Log In</a></li>
+                {% if user.is_instructor %}
+                <li><a href="{% url 'courses:instructor_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <!-- Learn -->
+            <div class="col-lg-2 col-md-6 col-6">
+              <h6 class="footer-heading">Learn</h6>
+              <ul class="footer-links">
+                <li><a href="{% url 'courses:course_list' %}"><i class="bi bi-book me-2"></i>Courses</a></li>
+                <li><a href="#"><i class="bi bi-patch-question me-2"></i>Quizzes</a></li>
+                <li><a href="#"><i class="bi bi-chat-dots me-2"></i>Forums</a></li>
+                <li><a href="#"><i class="bi bi-award me-2"></i>Certificates</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-lg-4 col-md-6">
+              <h6 class="footer-heading">Get In Touch</h6>
+              <ul class="footer-links footer-contact">
+                <li>
+                  <i class="bi bi-geo-alt-fill"></i>
+                  <span>Kathmandu, Nepal</span>
+                </li>
+                <li>
+                  <i class="bi bi-envelope-fill"></i>
+                  <span>support@eduspace.com.np</span>
+                </li>
+                <li>
+                  <i class="bi bi-telephone-fill"></i>
+                  <span>+977 98XXXXXXXX</span>
+                </li>
+              </ul>
+              <!-- Newsletter mini -->
+              <div class="newsletter-box mt-3">
+                <p class="newsletter-label">Stay updated — no spam, ever.</p>
+                <div class="newsletter-row">
+                  <input type="email" placeholder="your@email.com" class="newsletter-input" />
+                  <button class="newsletter-btn">Subscribe</button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.row -->
+        </div><!-- /.container -->
+      </div><!-- /.footer-body -->
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <p class="mb-0">
+            &copy; {% now "Y" %} <strong>EduSpace</strong>. All rights reserved.
+          </p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+          </div>
+          <p class="mb-0 made-with">
+            Made with <i class="bi bi-heart-fill" style="color:#f43f5e;"></i> in Nepal
+          </p>
+        </div>
+      </div>
+
+    </footer>
+    <!-- ══════════ END FOOTER ══════════ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>

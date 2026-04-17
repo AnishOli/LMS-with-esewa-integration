@@ -4,6 +4,11 @@ from django.contrib import messages
 from .models import Course, Category, Lesson
 from .forms import CourseForm
 
+
+def home_view(request):
+    courses = Course.objects.select_related('instructor', 'category').all()[:8]
+    return render(request, 'home.html', {'courses': courses})
+
 def course_list(request):
     courses = Course.objects.all()
     categories = Category.objects.all()
