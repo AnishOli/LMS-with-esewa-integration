@@ -29,6 +29,7 @@ urlpatterns = [
     path('forums/', include('forums.urls')),
     path('contact/', contact_view, name='contact'),
     path('', home_view, name='home'),
+    path('social-auth/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,541 @@
+2026-04-18 18:46:30,672 - ERROR - Internal Server Error: /social-auth/complete/google-oauth2/
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: social_auth_usersocialauth
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\utils.py", line 44, in wrapper
+    return func(request, backend, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\views.py", line 33, in complete
+    return do_complete(
+        request.backend,
+    ...<5 lines>...
+        **kwargs,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\actions.py", line 71, in do_complete
+    authenticated_user = backend.complete(
+        *args, user=authenticated_user, redirect_name=redirect_name, **kwargs
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 61, in complete
+    return self.auth_complete(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 498, in auth_complete
+    return self.do_auth(
+           ~~~~~~~~~~~~^
+        response["access_token"], *args, response=response, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 511, in do_auth
+    return self.strategy.authenticate(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\strategy.py", line 121, in authenticate
+    return authenticate(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 108, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 113, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 147, in run_pipeline
+    result = func(*args, **out) or {}
+             ~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\pipeline\social_auth.py", line 29, in social_user
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\models.py", line 50, in get_social_auth
+    for social in cls.objects.select_related("user").filter(provider=provider, uid=uid):
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\query.py", line 390, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: social_auth_usersocialauth
+2026-04-18 18:46:30,689 - ERROR - "GET /social-auth/complete/google-oauth2/?state=pASPCLUVe1UoYI5PASIJDtAJxCQeM4Bx&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E-oGiGAakE1NyXbrZ0O04UOuQACIk9g4oOsUy0wIVWDd9dNr_iHea2JvPLIoRwoNw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=1&prompt=consent HTTP/1.1" 500 260667
+2026-04-18 18:47:49,118 - ERROR - Internal Server Error: /social-auth/complete/google-oauth2/
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 488, in auth_complete
+    response = self.request_access_token(
+        self.access_token_url(),
+    ...<5 lines>...
+        method=self.ACCESS_TOKEN_METHOD,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 456, in request_access_token
+    return self.get_json(
+           ~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        json=json,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 335, in get_json
+    return self.request(
+           ~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<6 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    ).json()
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 321, in request
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\requests\models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://accounts.google.com/o/oauth2/token
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\utils.py", line 44, in wrapper
+    return func(request, backend, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\views.py", line 33, in complete
+    return do_complete(
+        request.backend,
+    ...<5 lines>...
+        **kwargs,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\actions.py", line 71, in do_complete
+    authenticated_user = backend.complete(
+        *args, user=authenticated_user, redirect_name=redirect_name, **kwargs
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 61, in complete
+    return self.auth_complete(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 261, in wrapper
+    raise AuthCanceled(args[0], response=err.response) from err
+social_core.exceptions.AuthCanceled: Authentication process canceled
+2026-04-18 18:47:49,125 - ERROR - "GET /social-auth/complete/google-oauth2/?state=pASPCLUVe1UoYI5PASIJDtAJxCQeM4Bx&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E-oGiGAakE1NyXbrZ0O04UOuQACIk9g4oOsUy0wIVWDd9dNr_iHea2JvPLIoRwoNw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=1&prompt=consent HTTP/1.1" 500 136928
+2026-04-18 18:48:02,321 - ERROR - Internal Server Error: /social-auth/complete/google-oauth2/
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: accounts_user.email
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\storage.py", line 91, in create_user
+    return manager.create_user(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\accounts\models.py", line 12, in create_user
+    user.save()
+    ~~~~~~~~~^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 62, in save
+    super().save(**kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, insert_fields, returning_fields, raw
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 1220, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: accounts_user.email
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\utils.py", line 44, in wrapper
+    return func(request, backend, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\views.py", line 33, in complete
+    return do_complete(
+        request.backend,
+    ...<5 lines>...
+        **kwargs,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\actions.py", line 71, in do_complete
+    authenticated_user = backend.complete(
+        *args, user=authenticated_user, redirect_name=redirect_name, **kwargs
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 61, in complete
+    return self.auth_complete(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 498, in auth_complete
+    return self.do_auth(
+           ~~~~~~~~~~~~^
+        response["access_token"], *args, response=response, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 511, in do_auth
+    return self.strategy.authenticate(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\strategy.py", line 121, in authenticate
+    return authenticate(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 108, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 113, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 147, in run_pipeline
+    result = func(*args, **out) or {}
+             ~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\pipeline\user.py", line 106, in create_user
+    return {"is_new": True, "user": strategy.create_user(**fields)}
+                                    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\strategy.py", line 82, in create_user
+    return self.storage.user.create_user(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\storage.py", line 93, in create_user
+    raise AuthAlreadyAssociated(None) from exc
+social_core.exceptions.AuthAlreadyAssociated: This account is already in use.
+2026-04-18 18:48:02,330 - ERROR - "GET /social-auth/complete/google-oauth2/?state=pASPCLUVe1UoYI5PASIJDtAJxCQeM4Bx&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E-aB6QkfKFWsE7GoWZGYEUBrH66qQIFxzi0ZqsCqQ-iizh-RQMPQWYGKsaAj1T_WA&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=1&prompt=none HTTP/1.1" 500 294381
+2026-04-18 18:48:21,982 - ERROR - Internal Server Error: /social-auth/complete/google-oauth2/
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: accounts_user.email
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\storage.py", line 91, in create_user
+    return manager.create_user(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\accounts\models.py", line 12, in create_user
+    user.save()
+    ~~~~~~~~~^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 62, in save
+    super().save(**kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, insert_fields, returning_fields, raw
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\base.py", line 1220, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: accounts_user.email
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\utils.py", line 44, in wrapper
+    return func(request, backend, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\views.py", line 33, in complete
+    return do_complete(
+        request.backend,
+    ...<5 lines>...
+        **kwargs,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\actions.py", line 71, in do_complete
+    authenticated_user = backend.complete(
+        *args, user=authenticated_user, redirect_name=redirect_name, **kwargs
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 61, in complete
+    return self.auth_complete(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 498, in auth_complete
+    return self.do_auth(
+           ~~~~~~~~~~~~^
+        response["access_token"], *args, response=response, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 511, in do_auth
+    return self.strategy.authenticate(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\strategy.py", line 121, in authenticate
+    return authenticate(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 108, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 113, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 147, in run_pipeline
+    result = func(*args, **out) or {}
+             ~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\pipeline\user.py", line 106, in create_user
+    return {"is_new": True, "user": strategy.create_user(**fields)}
+                                    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\strategy.py", line 82, in create_user
+    return self.storage.user.create_user(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\storage.py", line 93, in create_user
+    raise AuthAlreadyAssociated(None) from exc
+social_core.exceptions.AuthAlreadyAssociated: This account is already in use.
+2026-04-18 18:48:21,988 - ERROR - "GET /social-auth/complete/google-oauth2/?state=pASPCLUVe1UoYI5PASIJDtAJxCQeM4Bx&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E8nmo2i1_-o62KEaiJi6yGtrvDqdFn9ukfkWepQwOFBfmy_9GK-kSdycnMFaLfHLw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=consent HTTP/1.1" 500 293203
+2026-04-18 18:49:53,790 - ERROR - Internal Server Error: /social-auth/complete/google-oauth2/
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 252, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 488, in auth_complete
+    response = self.request_access_token(
+        self.access_token_url(),
+    ...<5 lines>...
+        method=self.ACCESS_TOKEN_METHOD,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\oauth.py", line 456, in request_access_token
+    return self.get_json(
+           ~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        json=json,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 335, in get_json
+    return self.request(
+           ~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<6 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    ).json()
+    ^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 321, in request
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\requests\models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://accounts.google.com/o/oauth2/token
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\utils.py", line 44, in wrapper
+    return func(request, backend, *args, **kwargs)
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_django\views.py", line 33, in complete
+    return do_complete(
+        request.backend,
+    ...<5 lines>...
+        **kwargs,
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\actions.py", line 71, in do_complete
+    authenticated_user = backend.complete(
+        *args, user=authenticated_user, redirect_name=redirect_name, **kwargs
+    )
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\backends\base.py", line 61, in complete
+    return self.auth_complete(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\LMS\venv\Lib\site-packages\social_core\utils.py", line 261, in wrapper
+    raise AuthCanceled(args[0], response=err.response) from err
+social_core.exceptions.AuthCanceled: Authentication process canceled
+2026-04-18 18:49:53,796 - ERROR - "GET /social-auth/complete/google-oauth2/?state=pASPCLUVe1UoYI5PASIJDtAJxCQeM4Bx&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E-oGiGAakE1NyXbrZ0O04UOuQACIk9g4oOsUy0wIVWDd9dNr_iHea2JvPLIoRwoNw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=1&prompt=consent HTTP/1.1" 500 137078
