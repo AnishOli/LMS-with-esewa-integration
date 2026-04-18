@@ -200,7 +200,7 @@ JAZZMIN_SETTINGS = {
       "search_model": ["auth.User", "auth.Group"],
       
       
-       "site_logo": "img/logo.jpg",
+    #    "site_logo": "img/logo.jpg",
        "site_logo_classes": "img-circle",
        
        "custom_links": {
