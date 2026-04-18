@@ -31,12 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #external apps
+    'oauth2_provider',
     'accounts',
     'courses',
     'enrollments',
@@ -142,3 +145,88 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "anisholi751106@gmail.com"
 EMAIL_HOST_PASSWORD = "rneb wryf jdbd epqg"
+
+
+# Jazminnn setting 
+JAZZMIN_SETTINGS = {
+    "site_title": "Online learning System",
+     "site_header": "Edu space",
+      "site_brand": "EduSpace",
+      "welcome_sign": "Welcome to the Learning Galaxy",
+      "search_model": ["auth.User", "auth.Group"],
+      
+      
+       "site_logo": "img/logo.jpg",
+       "site_logo_classes": "img-circle",
+       
+       "custom_links": {
+    "Courses": [{
+        # Any Name you like
+        "name": "Lesson",
+
+        # url name e.g `admin:index`, relative urls e.g `/admin/index` or absolute urls e.g `https://domain.com/admin/index`
+        "url": "lesson",
+
+        # any font-awesome icon, see list here https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2 (optional)
+        "icon": "fas fa-comments",
+
+        # a list of permissions the user must have to see this link (optional)
+        "permissions": ["books.view_book"]     
+    }]
+},
+       
+       "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_email"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Support", "url": "https://github.com/AnishOli/LMS-with-esewa-integration", "new_window": True},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "courses"},
+         
+        
+    ],
+       
+}
+JAZZMIN_SETTINGS["show_ui_builder"] = True
+
+# Logger= record event that happend  on your website when your website is live 
+
+
+import os
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'timestamp': {
+            'format': '{asctime} - {levelname} - {message}',
+            'style': '{',  # Ensure the style matches the format (e.g., `{` for Python 3.2+)
+        },
+    },
+    'handlers': {
+        
+        'file': {
+            'level': 'ERROR',  # Only log errors
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',  # Log file
+            'formatter': 'timestamp',  # Use the verbose formatter
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'timestamp',  # Refers to the 'timestamp' formatter
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

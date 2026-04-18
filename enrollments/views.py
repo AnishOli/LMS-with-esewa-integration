@@ -1,3 +1,5 @@
+from venv import logger
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -29,29 +31,31 @@ def enroll(request, course_id):
     enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course, defaults={'is_active': False})
     
     transaction_uuid = f"enroll_{enrollment.id}_{uuid.uuid4().hex[:6]}"
+    try:
+        if hasattr(enrollment, 'payment'):
+            payment = enrollment.payment
+            payment.status = 'PENDING'
+            payment.transaction_uuid = transaction_uuid
+            payment.save()
+        else:
+            payment = Payment.objects.create(
+                enrollment=enrollment, 
+                amount=course.price,
+                transaction_uuid=transaction_uuid
+            )
+
+        amount = str(payment.amount)
+        product_code = settings.ESEWA_MERCHANT_CODE
+        secret_key = settings.ESEWA_SECRET_KEY
+
+        message = f"total_amount={amount},transaction_uuid={transaction_uuid},product_code={product_code}"
+        hmac_sha256 = hmac.new(secret_key.encode('utf-8'), message.encode('utf-8'), hashlib.sha256).digest()
+        signature = base64.b64encode(hmac_sha256).decode('utf-8')
     
-    if hasattr(enrollment, 'payment'):
-        payment = enrollment.payment
-        payment.status = 'PENDING'
-        payment.transaction_uuid = transaction_uuid
-        payment.save()
-    else:
-        payment = Payment.objects.create(
-            enrollment=enrollment, 
-            amount=course.price,
-            transaction_uuid=transaction_uuid
-        )
-
-    amount = str(payment.amount)
-    product_code = settings.ESEWA_MERCHANT_CODE
-    secret_key = settings.ESEWA_SECRET_KEY
-
-    message = f"total_amount={amount},transaction_uuid={transaction_uuid},product_code={product_code}"
-    hmac_sha256 = hmac.new(secret_key.encode('utf-8'), message.encode('utf-8'), hashlib.sha256).digest()
-    signature = base64.b64encode(hmac_sha256).decode('utf-8')
-
-    success_url = request.build_absolute_uri('/enrollments/esewa/success/')
-    failure_url = request.build_absolute_uri('/enrollments/esewa/failure/')
+        success_url = request.build_absolute_uri('/enrollments/esewa/success/')
+        failure_url = request.build_absolute_uri('/enrollments/esewa/failure/')
+    except Exception as e :
+        logger.error(request,exc_info=True)
 
     context = {
         'amount': amount,
