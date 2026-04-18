@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ thread.title }} - EduSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .op-box {
+        background: #0d1f3a;
+        border: 1px solid rgba(201,168,76,.3);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    }
+    .reply-box {
+        background: rgba(255,255,255,.03);
+        border-left: 4px solid #c9a84c;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .reply-form-card {
+        background: #0a1628;
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: 16px;
+        padding: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'forums:forum_list' %}" class="text-gold text-decoration-none">Forums</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'forums:thread_list' thread.forum.id %}" class="text-gold text-decoration-none">{{ thread.forum.course.title }}</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">{{ thread.title|truncatechars:30 }}</li>
+        </ol>
+    </nav>
+
+    <!-- Original Post -->
+    <div class="op-box">
+        <h1 class="fw-bold text-white mb-4">{{ thread.title }}</h1>
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="profile-avatar" style="width: 44px; height: 44px; font-size: 1.1rem;">
+                {{ thread.author.email|first|upper }}
+            </div>
+            <div>
+                <h6 class="text-white fw-bold mb-0">{{ thread.author.email }}</h6>
+                <span class="text-muted small">Posted on {{ thread.created_at|date:"F d, Y • f A" }}</span>
+            </div>
+        </div>
+        <div class="text-light fs-5 lh-base mb-0" style="white-space: pre-wrap;">{{ thread.content }}</div>
+    </div>
+
+    <!-- Replies -->
+    <div class="mb-5">
+        <h4 class="fw-bold text-white mb-4"><i class="bi bi-reply-all me-2"></i> {{ replies.count }} Replies</h4>
+        
+        {% for reply in replies %}
+        <div class="reply-box">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="profile-avatar" style="width: 24px; height: 24px; font-size: .7rem;">
+                    {{ reply.author.email|first|upper }}
+                </div>
+                <span class="text-white fw-bold small">{{ reply.author.email }}</span>
+                <span class="text-muted small">• {{ reply.created_at|timesince }} ago</span>
+            </div>
+            <div class="text-light mb-0" style="white-space: pre-wrap;">{{ reply.content }}</div>
+        </div>
+        {% empty %}
+        <div class="text-center py-4 text-muted">No replies yet. Be the first to help out!</div>
+        {% endfor %}
+    </div>
+
+    <!-- Reply Form -->
+    {% if user.is_authenticated %}
+    <div class="reply-form-card mt-5">
+        <h5 class="fw-bold text-white mb-4">Leave a Reply</h5>
+        <form action="{% url 'forums:create_reply' thread.id %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <textarea name="content" class="form-control" rows="5" placeholder="Write your answer or thoughts here..." 
+                          style="background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: #fff;" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold px-5 py-2">Post Reply</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="alert alert-dark text-center py-4 mt-5" style="background: rgba(201,168,76,.05); border: 1px dashed rgba(201,168,76,.3);">
+        <p class="text-muted mb-3">You must be logged in to participate in the discussion.</p>
+        <a href="{% url 'accounts:login' %}" class="btn btn-gold px-5">Log In to Reply</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

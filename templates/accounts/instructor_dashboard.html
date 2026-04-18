@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Instructor Dashboard - EduSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dash-stat-card {
+        background: #0d1f3a;
+        border: 1px solid rgba(201,168,76,.15);
+        border-radius: 16px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .dash-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0;
+        width: 100px; height: 100px;
+        background: radial-gradient(circle at top right, rgba(201,168,76,.1), transparent 70%);
+    }
+    .income-text {
+        background: linear-gradient(90deg, #c9a84c, #e8c56d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+    }
+    
+    .dashboard-panel {
+        background: #0a1628;
+        border: 1px solid rgba(255,255,255,.05);
+        border-radius: 20px;
+        padding: 1.5rem;
+        height: 100%;
+    }
+    .course-row {
+        background: rgba(255,255,255,.02);
+        border: 1px solid rgba(255,255,255,.05);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: all .2s;
+    }
+    .course-row:hover {
+        background: rgba(255,255,255,.04);
+        border-color: rgba(201,168,76,.3);
+    }
+    .enroll-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: .75rem 0;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .enroll-item:last-child { border-bottom: none; }
+    .student-avatar {
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        background: #1e293b;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700;
+        color: #94a3b8;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h2 class="fw-bold text-white mb-1">Instructor Command Center</h2>
+            <p class="text-muted mb-0">Manage your content, students, and earnings from one place.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a href="{% url 'courses:course_create' %}" class="btn btn-gold px-4 py-2">
+                <i class="bi bi-plus-lg me-2"></i>Create New Course
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="dash-stat-card">
+                <p class="text-muted small text-uppercase fw-bold mb-1">Total Revenue</p>
+                <h2 class="income-text mb-0">रु {{ total_income|default:"0.00" }}</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dash-stat-card">
+                <p class="text-muted small text-uppercase fw-bold mb-1">Active Students</p>
+                <h2 class="text-white fw-bold mb-0">{{ total_students }}</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dash-stat-card">
+                <p class="text-muted small text-uppercase fw-bold mb-1">Courses Published</p>
+                <h2 class="text-white fw-bold mb-0">{{ total_courses }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Courses List -->
+        <div class="col-lg-8">
+            <div class="dashboard-panel">
+                <h5 class="fw-bold text-white mb-4">Your Content Library</h5>
+                
+                {% for course in courses %}
+                <div class="course-row">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h6 class="text-white fw-bold mb-1">{{ course.title }}</h6>
+                            <span class="text-muted small">{{ course.category.name }} • रु {{ course.price }}</span>
+                        </div>
+                        <div class="col-md-3 text-md-center">
+                            <span class="text-muted small d-block">Students</span>
+                            <span class="text-white fw-bold">{{ course.enrollments.count }}</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
+                                    Manage
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="{% url 'courses:course_detail' course.slug %}">View Course</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'courses:course_edit' course.id %}">Edit Content</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="{% url 'courses:course_delete' course.id %}">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-5">
+                    <i class="bi bi-journal-plus fs-1 text-muted mb-3 d-block"></i>
+                    <p class="text-muted">You haven't created any courses yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Enrollments -->
+        <div class="col-lg-4">
+            <div class="dashboard-panel">
+                <h5 class="fw-bold text-white mb-4">Recent Students</h5>
+                
+                {% for enrollment in recent_enrollments %}
+                <div class="enroll-item">
+                    <div class="student-avatar">
+                        {{ enrollment.student.email|first|upper }}
+                    </div>
+                    <div>
+                        <h6 class="text-white fw-bold mb-0" style="font-size: .85rem;">{{ enrollment.student.email }}</h6>
+                        <span class="text-muted" style="font-size: .75rem;">Joined {{ enrollment.course.title|truncatechars:20 }}</span>
+                    </div>
+                    <div class="ms-auto">
+                        <span class="text-muted small">{{ enrollment.enrolled_at|date:"M d" }}</span>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-5">
+                    <p class="text-muted">No enrollments yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

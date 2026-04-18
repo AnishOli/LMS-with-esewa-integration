@@ -130,3 +130,15 @@ AUTH_USER_MODEL = 'accounts.User'
 # eSewa Config
 ESEWA_MERCHANT_CODE = 'EPAYTEST'
 ESEWA_SECRET_KEY = '8gBm/:&EnhH.1/q'
+
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+# email setup in django
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "anisholi751106@gmail.com"
+EMAIL_HOST_PASSWORD = "rneb wryf jdbd epqg"

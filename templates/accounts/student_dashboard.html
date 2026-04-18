@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard - EduSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        background: #0d1f3a;
+        border: 1px solid rgba(201,168,76,.15);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: transform .3s ease;
+    }
+    .stat-card:hover { transform: translateY(-5px); }
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .bg-gold-light { background: rgba(201,168,76,.1); color: #c9a84c; }
+    
+    .dashboard-section {
+        background: #0a1628;
+        border: 1px solid rgba(255,255,255,.05);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    .course-mini-card {
+        background: rgba(255,255,255,.03);
+        border: 1px solid rgba(255,255,255,.05);
+        border-radius: 14px;
+        padding: 1rem;
+        transition: background .2s;
+        text-decoration: none !important;
+        display: block;
+        margin-bottom: 1rem;
+    }
+    .course-mini-card:hover {
+        background: rgba(255,255,255,.06);
+        border-color: rgba(201,168,76,.3);
+    }
+    .quiz-item {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .quiz-item:last-child { border-bottom: none; }
+    .score-badge {
+        font-weight: 700;
+        padding: .3rem .8rem;
+        border-radius: 999px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h2 class="fw-bold text-white mb-1">Welcome back, {{ user.first_name|default:user.email }}!</h2>
+            <p class="text-muted mb-0">Track your learning progress and quiz results here.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a href="{% url 'courses:course_list' %}" class="btn btn-gold px-4 py-2">
+                <i class="bi bi-plus-circle me-2"></i>Find New Courses
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-gold-light">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                </div>
+                <h4 class="fw-bold text-white mb-0">{{ total_courses }}</h4>
+                <p class="text-muted small mb-0">Enrolled Courses</p>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                    <i class="bi bi-patch-check"></i>
+                </div>
+                <h4 class="fw-bold text-white mb-0">{{ passed_quizzes }}</h4>
+                <p class="text-muted small mb-0">Quizzes Passed</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- My Courses -->
+        <div class="col-lg-7">
+            <div class="dashboard-section h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold text-white mb-0">My Active Courses</h5>
+                    <a href="{% url 'courses:course_list' %}" class="text-gold text-decoration-none small">View All</a>
+                </div>
+                
+                {% for enrollment in enrollments %}
+                <a href="{% url 'courses:course_detail' enrollment.course.slug %}" class="course-mini-card">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="rounded-3 overflow-hidden" style="width: 64px; height: 48px;">
+                                {% if enrollment.course.thumbnail %}
+                                <img src="{{ enrollment.course.thumbnail.url }}" class="w-100 h-100 object-fit-cover">
+                                {% else %}
+                                <div class="w-100 h-100 bg-secondary d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-image text-muted"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h6 class="text-white fw-bold mb-1">{{ enrollment.course.title }}</h6>
+                            <span class="text-muted small">{{ enrollment.course.category.name }}</span>
+                        </div>
+                        <div class="col-auto text-end">
+                            <i class="bi bi-chevron-right text-muted"></i>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <div class="text-center py-5">
+                    <i class="bi bi-emoji-neutral fs-1 text-muted mb-3 d-block"></i>
+                    <p class="text-muted">You haven't enrolled in any courses yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Quizzes -->
+        <div class="col-lg-5">
+            <div class="dashboard-section h-100">
+                <h5 class="fw-bold text-white mb-4">Recent Quiz Results</h5>
+                
+                {% for attempt in quiz_attempts %}
+                <div class="quiz-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white fw-bold mb-1">{{ attempt.quiz.title }}</h6>
+                        <span class="text-muted small">{{ attempt.quiz.module.course.title }}</span>
+                    </div>
+                    <div class="text-end">
+                        <div class="score-badge {% if attempt.passed %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
+                            {{ attempt.score }}%
+                        </div>
+                        <span class="text-muted small d-block mt-1">{{ attempt.completed_at|date:"M d" }}</span>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-5">
+                    <p class="text-muted">No quiz attempts yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

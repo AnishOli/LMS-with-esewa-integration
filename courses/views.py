@@ -6,13 +6,26 @@ from .forms import CourseForm
 
 
 def home_view(request):
-    courses = Course.objects.select_related('instructor', 'category').all()[:8]
+    courses = Course.objects.select_related('instructor', 'category').all().order_by('-created')[:8]
     return render(request, 'home.html', {'courses': courses})
 
+def contact_view(request):
+    if request.method == 'POST':
+        messages.success(request, "Your message has been sent successfully! We will get back to you soon.")
+        return redirect('contact')
+    return render(request, 'contact.html')
+
 def course_list(request):
+    query = request.GET.get('q', '').strip()
     courses = Course.objects.all()
+    if query:
+        courses = courses.filter(title__icontains=query)
     categories = Category.objects.all()
-    return render(request, 'courses/course_list.html', {'courses': courses, 'categories': categories})
+    return render(request, 'courses/course_list.html', {
+        'courses': courses,
+        'categories': categories,
+        'query': query,
+    })
 
 def course_detail(request, slug):
     course = get_object_or_404(Course, slug=slug)

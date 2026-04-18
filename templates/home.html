@@ -449,10 +449,10 @@
     <p class="lead">Learn from industry experts. Gain real-world skills. Pay seamlessly with eSewa.</p>
     <div class="d-flex justify-content-center gap-3 flex-wrap" style="position:relative;">
       {% if not user.is_authenticated %}
-        <a href="{% url 'register' %}" class="btn btn-lg px-5 py-2 rounded-pill btn-gold">
+        <a href="{% url 'accounts:register' %}" class="btn btn-lg px-5 py-2 rounded-pill btn-gold">
           <i class="bi bi-rocket-takeoff me-2"></i>Start Learning Free
         </a>
-        <a href="{% url 'login' %}" class="btn btn-lg px-5 py-2 rounded-pill btn-gold-outline">
+        <a href="{% url 'accounts:login' %}" class="btn btn-lg px-5 py-2 rounded-pill btn-gold-outline">
           Log In
         </a>
       {% else %}
@@ -621,7 +621,7 @@
       <p>Join thousands of students already upskilling on EduSpace. It's free to get started.</p>
       <div style="position:relative;display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;">
         {% if not user.is_authenticated %}
-          <a href="{% url 'register' %}" class="btn btn-lg rounded-pill px-5 btn-gold">
+          <a href="{% url 'accounts:register' %}" class="btn btn-lg rounded-pill px-5 btn-gold">
             <i class="bi bi-rocket-takeoff me-2"></i>Get Started — It's Free
           </a>
           <a href="{% url 'courses:course_list' %}" class="btn btn-lg rounded-pill px-5 btn-gold-outline">
